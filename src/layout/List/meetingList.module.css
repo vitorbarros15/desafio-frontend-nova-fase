@@ -1,0 +1,19 @@
+/* styles.css (ou qualquer nome de arquivo CSS que você preferir) */
+.boxAtasButton {
+  width: 881px;
+  height: 65px;
+  margin: 31px 0px 450px 0px;
+  left: 308px;
+}
+
+.backgroundList {
+  flex-wrap: wrap;
+}
+
+.backgroundList > :not(style) {
+  width: 946px;
+  min-height: 1015px;
+  padding: 29px 32px 29px 32px;
+  border-radius: 5px;
+  margin: 32px 0 35px 0;
+}

@@ -1,0 +1,64 @@
+.container {
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  gap: 35px;
+}
+
+.container .typeMeeting {
+  display: flex;
+  align-items: center;
+  font-family: Calibri;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  color: #003A64;
+  width: 883px;
+  border-radius: 5px;
+}
+
+.container .containerMeetingIcon{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 883px;
+  border-radius: 5px;
+}
+
+.container .meeting {
+ display: flex;
+ justify-content: space-between;
+ width: 100%;
+ height: 74px;
+}
+
+.container .titleMeeting {
+  height: 24px;
+  font-family: Calibri;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  color: #312F2F;
+  padding-bottom: 14px;
+  margin-left: 14px;
+}
+
+.container .dateHourLocal {
+  font-family: Calibri;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  color: #5C5958;
+  margin-left: 14px;
+}
+
+.container .border {
+  border-bottom: 1px solid #C0C1C6; /* Borda inferior de 4px de largura, preto */
+  margin: 5px 0 5px 0; 
+}

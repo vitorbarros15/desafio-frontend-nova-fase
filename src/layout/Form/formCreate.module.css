@@ -1,0 +1,53 @@
+.card {
+  display: flex;
+  justify-content: center;
+  width: 946px;
+  min-height: 807px;
+  margin: 32px 0px 41px 0;
+  left: 277px;
+  border-radius: 5px;
+}
+
+.containerButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 271px;
+  height: 38px;
+  top: 740px;
+  left: 642px;
+  gap: 30px;
+}
+
+.containerButtons .buttonCancel, .containerButtons .buttonSave {
+  width: 116px;
+  height: 38px;
+  padding: 10px, 21px, 8px, 21px;
+  border-radius: 5px;
+  gap: 10px;
+  font-family: Calibri;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.03em;
+  text-align: center; 
+}
+
+.containerButtons .buttonCancel {
+  color: #5C5958;
+  background: #C0C1C6;
+}
+
+.containerButtons .buttonCancel:hover {
+  background-color: currentColor;
+  background: #82838c;
+}
+
+.containerButtons .buttonSave {
+  color: #E4E6F0;
+  background: #4CAF50;
+}
+
+.containerButtons .buttonSave:hover {
+  background-color: currentColor;
+  background: #419544;
+}

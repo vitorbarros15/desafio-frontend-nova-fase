@@ -1,0 +1,41 @@
+.containerMeetingContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+  margin: 37px 0 108px 0;
+}
+
+.containerMeetingContent .titleMeetingContent {
+  font-family: Calibri;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  color: #7B7B7B;
+}
+
+.containerDefault {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 880px;
+  height: 85px;
+}
+
+.containerDefault .default {
+  font-family: Calibri;
+  font-style: normal;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7B7B7B;
+}
+
+.inputsDate {
+  width: 425px;
+}

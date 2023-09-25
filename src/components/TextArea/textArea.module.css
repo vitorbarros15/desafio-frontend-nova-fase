@@ -1,0 +1,30 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  width: 880px;
+  height: 226px;
+  top: 379px;
+  left: 33px;
+  gap: 11px;
+}
+
+.box .title {
+  height: 20px;
+  font-family: Calibri;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-left: 14px;
+  color: #7B7B7B;
+}
+
+.box .input {
+  position: initial;
+  width: 880px;
+  top: 30px;
+  border-radius: 5px;
+  border: 1px;
+  color: #C0C1C6;
+}

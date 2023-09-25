@@ -1,0 +1,34 @@
+.containerButton .buttonCreate {
+  width: 118px;
+  height: 33px;
+  padding: 5px 13px 4px 13px;
+  border-radius: 5px;
+  gap: 10px;
+  background: #FF4F2A;
+}
+
+.containerButton .buttonCreate:hover {
+  background-color: currentColor;
+  background: #d84022;
+}
+
+.buttonCreate .icon {
+  font-family: Calibri, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24.41px;
+  text-align: center;
+  color: #F5F5F5;
+}
+
+.buttonCreate .text {
+  width: 72px;
+  height: 20px;
+  font-family: Calibri, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.53px;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: white;
+}
