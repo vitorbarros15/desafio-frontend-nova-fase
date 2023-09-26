@@ -12,64 +12,79 @@ import TextArea from "../../../../components/TextArea";
 import InputText from "../../../../components/InputText";
 
 // Hook
-// import useDate from "../../../../hooks/useDate";
+import useDate from "../../../../hooks/useDate";
 
 // Style
 import styles from "./meetingContent.module.css";
 
 export default function MeetingContent({
   chosenMeeting,
-  typeOfMeeting
-  // handleChangeAtaReuniao
+  typeOfMeeting,
+  handleChangeEvent
+  handleChangeAtaReuniao
 }) {
+  console.log("chosenMeeting", chosenMeeting, typeOfMeeting);
   function createTextArea(campo) {
     console.log(campo);
     return (
-      <TextArea title={campo.nome} />
-      // <Box className={styles.containerTextArea} key={campo.id}>
-      //   <Typography className={styles.tituloTextArea}>{campo.nome}</Typography>
-      //   <TextField
-      //     multiline
-      //     rows={7}
-      //     className={styles.textArea}
-      //     onChange={(e) => {
-      //       const value = { campoId: campo.id, valor: e.target.value };
-      //       handleChangeAtaReuniao(value);
-      //     }}
-      //   />
-      // </Box>
+      <TextArea
+        name={campo.id}
+        title={campo.nome}
+        onChange={(e) => {
+          handleChangeEvent(e);
+          console.log("e", e.target.value);
+        }}
+      />
+    // <Box className={styles.containerTextArea} key={campo.id}>
+    //   <Typography className={styles.tituloTextArea}>{campo.nome}</Typography>
+    //   <TextField
+    //     multiline
+    //     rows={7}
+    //     className={styles.textArea}
+    //     onChange={(e) => {
+    //       const value = { campoId: campo.id, valor: e.target.value };
+    //       handleChangeAtaReuniao(value);
+    //     }}
+    //   />
+    // </Box>
     );
   }
 
-  function createDateTime(campo, campoId, campoNome) {
-    console.log("campo", campo);
+  function createDateTime(campo) {
+    console.log("campo", campo.campoId);
     return (
       <DateTime
-        label={campoNome}
+        label={campo.nome}
+        onChange={(e) => {
+          const response = { name: campo.id, value: useDate(e.$d) };
+          handleChangeEvent(response);
+        }}
       />
-      // <Box key={campoNome} className={styles.inputsDate}>
-      //   <LocalizationProvider dateAdapter={AdapterDayjs}>
-      //     <DemoContainer components={["DateTimePicker"]}>
-      //       <DateTimePicker
-      //         label={campoNome}
-      //         slotProps={{ textField: { size: "small" } }}
-      //         onChange={(e) => {
-      //           const dateTime = e.$d;
-      //           const value = { campoId, valor: useDate(dateTime) };
-      //           console.log("response", value);
-      //           handleChangeAtaReuniao(value);
-      //         }}
-      //       />
-      //     </DemoContainer>
-      //   </LocalizationProvider>
-      // </Box>
+    // <Box key={campoNome} className={styles.inputsDate}>
+    //   <LocalizationProvider dateAdapter={AdapterDayjs}>
+    //     <DemoContainer components={["DateTimePicker"]}>
+    //       <DateTimePicker
+    //         label={campoNome}
+    //         slotProps={{ textField: { size: "small" } }}
+    //         onChange={(e) => {
+    //           const dateTime = e.$d;
+    //           const value = { campoId, valor: useDate(dateTime) };
+    //           console.log("response", value);
+    //           handleChangeAtaReuniao(value);
+    //         }}
+    //       />
+    //     </DemoContainer>
+    //   </LocalizationProvider>
+    // </Box>
     );
   }
 
   function createText(campo) {
     console.log("campo", campo);
     return (
-      <InputText label={campo.nome} />
+      <Box width="100%">
+        <InputText name={campo.id} label={campo.nome} onChange={(e) => handleChangeEvent(e)} />
+      </Box>
       // <Box width="100%" key={campoNome}>
       //   <TextField
       //     size="small"
@@ -102,7 +117,8 @@ export default function MeetingContent({
       <Box display="flex" flexDirection="column" gap="35px">
         {chosenMeeting ? (
           typeOfMeeting.map((object) => {
-            if (object.id === chosenMeeting) {
+            console.log("typeOfMeeting", typeOfMeeting, chosenMeeting, object);
+            if (object.nome === chosenMeeting) {
               return object.campos.map((campo) => {
                 if (campo.tipo === "textarea") {
                   return createTextArea(campo);
@@ -137,5 +153,6 @@ MeetingContent.propTypes = {
         })
       ).isRequired
     })
-  ).isRequired
+  ).isRequired,
+  handleChangeEvent: PropTypes.func.isRequired
 };

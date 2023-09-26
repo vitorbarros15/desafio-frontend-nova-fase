@@ -29,11 +29,11 @@ function FormCreate() {
     data,
     errors
   } = useForm({
-    titulo: { valor: "", required: true },
-    dataInicio: { valor: "", required: true },
-    dataFim: { valor: "", required: true },
-    localId: { valor: "", required: true },
-    tipoReuniaoId: { valor: "", required: true },
+    titulo: { value: "", required: true },
+    dataInicio: { value: "", required: true },
+    dataFim: "",
+    localId: { value: "", required: true },
+    tipoReuniaoId: { value: "", required: true },
     camposAtaReuniao: []
   });
 
@@ -83,10 +83,12 @@ function FormCreate() {
               />
             </Box>
             <Box>
+              {console.log("formData.tipoReuniaoId.valor", formData.tipoReuniaoId.value)}
               <MeetingContent
-                chosenMeeting={formData.tipoReuniaoId.valor}
+                chosenMeeting={formData.tipoReuniaoId.value}
                 typeOfMeeting={typesMeetings}
                 handleChangeAtaReuniao={handleChangeAtaReuniao}
+                handleChangeEvent={handleChangeEvent}
               />
             </Box>
             <Box position="absolute" right="0" bottom="0" mb="29px">

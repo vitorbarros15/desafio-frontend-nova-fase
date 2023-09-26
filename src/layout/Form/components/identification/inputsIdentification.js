@@ -1,14 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 // MUI
-import { Box, Typography, MenuItem } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import PropTypes from "prop-types";
+import { Box, Typography } from "@mui/material";
 import DateTime from "../../../../components/DateTime";
+import InputText from "../../../../components/InputText";
+import InputSelect from "../../../../components/InputSelect";
 
 // Hook
 import useDate from "../../../../hooks/useDate";
@@ -16,121 +13,73 @@ import useDate from "../../../../hooks/useDate";
 // Styles
 import styles from "./inputsIdentification.module.css";
 
-function InputsIdentification({ typesMeetings, typesLocations, handleChangeEvent, errors }) {
+export default function InputsIdentification({
+  typesMeetings,
+  typesLocations,
+  handleChangeEvent,
+  errors
+}) {
   return (
     <Box className={styles.card}>
       <Box className={styles.containerFirst}>
-        <Box width="100%">
+        <Box widthfull>
           <Typography className={styles.titleIdentification}>Identificação</Typography>
         </Box>
-        <Box width="100%" className={styles.containerInputs}>
-          <Box width="100%">
-            <TextField
-              className={styles.inputsTextField}
-              required
+        <Box wwidthfull className={styles.containerInputs}>
+          <Box widthfull>
+            <InputText
               name="titulo"
               label="Título"
-              size="small"
-              error={errors.titulo && "true"}
+              error={errors.titulo}
               onChange={(e) => {
-                const value = { nome: "titulo", valor: e.target.value };
-                handleChangeEvent(value);
+                handleChangeEvent(e);
               }}
             />
           </Box>
-          <Box width="100%">
-            <TextField
-              className={styles.inputsTextField}
-              required
-              select
+          <Box widthfull>
+            <InputSelect
+              name="localId"
               label="Local"
-              size="small"
-              error={errors.localId && "true"}
-              onChange={(e) => {
-                typesLocations.forEach((objeto) => {
-                  if (objeto.nome === e.target.value) {
-                    const value = { nome: "localId", valor: objeto.id };
-                    handleChangeEvent(value);
-                  }
-                });
-              }}
-            >
-              {typesLocations.map((option) => (
-                <MenuItem key={option.id} value={option.nome}>{option.nome}</MenuItem>
-              ))}
-            </TextField>
+              error={errors.localId}
+              options={typesLocations}
+              onChange={(e) => { handleChangeEvent(e); }}
+            />
           </Box>
-          <Box className={styles.containerDate} width="100%" display="flex" justifyContent="space-between">
-            <Box className={styles.inputsDate}>
+          <Box className={styles.containerDate} width="100%" display="flex" justifyContent="space-between" gap="35px">
+            <Box width="425px">
               <DateTime
                 label="Data e Horário de Início *"
                 error={errors.dataInicio}
                 onChange={(e) => {
-                  const dateTime = e.$d;
-                  const value = { nome: "dataInicio", valor: useDate(dateTime) };
+                  const value = { name: "dataInicio", value: useDate(e.$d) };
                   handleChangeEvent(value);
                 }}
               />
-              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer component="DateRangePicker"
-                sx={{ padding: "0px", overflow: "initial" }} components={["DateTimePicker"]}>
-                  <DateTimePicker
-                    label="Data e Horário de Início *"
-                    slotProps={{ textField: { size: "small" } }}
-                    onChange={(e) => {
-                      const dateTime = e.$d;
-                      const value = { nome: "dataInicio", valor: useDate(dateTime) };
-                      handleChangeEvent(value);
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider> */}
             </Box>
-            <Box className={styles.inputsDate}>
-              <LocalizationProvider sx={{ color: "red" }} dateAdapter={AdapterDayjs}>
-                <DemoContainer sx={{ padding: "0px", overflow: "initial", color: "red" }} components={["DateTimePicker"]}>
-                  <DateTimePicker
-                    label="Data e Horário de Fim *"
-                    slotProps={{ textField: { size: "small" } }}
-                    onChange={(e) => {
-                      const dateTime = e.$d;
-                      const response = { nome: "dataFim", valor: useDate(dateTime) };
-                      handleChangeEvent(response);
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+            <Box width="425px">
+              <DateTime
+                label="Data e Horário de Fim"
+                onChange={(e) => {
+                  const response = { name: "dataFim", value: useDate(e.$d) };
+                  handleChangeEvent(response);
+                }}
+              />
             </Box>
           </Box>
-          <Box width="100%">
-            <TextField
-              className={styles.inputsTextField}
-              select
+          <Box widthfull>
+            <InputSelect
+              name="tipoReuniaoId"
               label="Tipo de Reunião"
-              required
-              size="small"
-              error={errors.tipoReuniaoId && "true"}
-              onChange={async (e) => {
-                typesMeetings.forEach((objeto) => {
-                  if (objeto.nome === e.target.value) {
-                    const value = { nome: "tipoReuniaoId", valor: objeto.id };
-                    console.log("value", value);
-                    handleChangeEvent(value);
-                  }
-                });
-              }}
-            >
-              {typesMeetings.map((option) => (
-                <MenuItem key={option.id} value={option.nome}>{option.nome}</MenuItem>
-              ))}
-            </TextField>
+              error={errors.tipoReuniaoId}
+              options={typesMeetings}
+              onChange={(e) => { handleChangeEvent(e); }}
+            />
           </Box>
         </Box>
       </Box>
     </Box>
   );
 }
-export default InputsIdentification;
 
 InputsIdentification.propTypes = {
   typesMeetings: PropTypes.arrayOf(PropTypes.shape({
