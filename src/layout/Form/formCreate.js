@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // MUI
-import { Card, Box, Button } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 
 // Componentes
-import BackgroundWrapper from "../../components/Wrapper/backgroundWrapper";
-import TextAtas from "../../components/Title/text";
 import MeetingContent from "./components/meetingContent/meetingContent";
 import InputsIdentification from "./components/identification/inputsIdentification";
 
@@ -16,6 +14,8 @@ import AxiosDefault from "../../permission/AxiosDefault";
 
 // Styles
 import styles from "./formCreate.module.css";
+import BackgroundWrapper from "../../components/Wrapper/backgroundWrapper";
+import TextAtas from "../../components/Title/text";
 
 function FormCreate() {
   const [typesMeetings, setTypeMeetings] = useState([]);
@@ -43,7 +43,6 @@ function FormCreate() {
       const responseLocation = await AxiosDefault.get("Locais");
       setTypeMeetings(responseMeeting);
       setLocations(responseLocation);
-      console.log("response", responseMeeting, responseLocation);
     }
 
     getData();
@@ -83,10 +82,8 @@ function FormCreate() {
               />
             </Box>
             <Box>
-              {console.log("formData.tipoReuniaoId.valor", formData.tipoReuniaoId.value)}
               <MeetingContent
                 chosenMeeting={formData.tipoReuniaoId.value}
-                typeOfMeeting={typesMeetings}
                 handleChangeAtaReuniao={handleChangeAtaReuniao}
                 handleChangeEvent={handleChangeEvent}
               />

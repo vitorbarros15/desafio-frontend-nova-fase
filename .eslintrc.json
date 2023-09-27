@@ -29,6 +29,8 @@
       "comma-dangle": ["error", "never"],
       "quotes": ["error", "double"],
       "linebreak-style": 0,
-      "object-curly-newline": ["error", { "multiline": true }]
+      "object-curly-newline": ["error", { "multiline": true }],
+      "no-async-promise-executor": "off"
+
     }
 }

@@ -85,7 +85,7 @@ function List() {
                       <RemoveRedEyeOutlinedIcon
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                          window.location.pathname = "/reuniao";
+                          window.location.pathname = `/reuniao/${meeting.id}`;
                         }}
                       />
                       <DeleteOutlineIcon
