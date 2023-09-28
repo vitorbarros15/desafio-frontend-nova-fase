@@ -6,7 +6,7 @@ import styles from "./backgroundWrrapper.module.css";
 
 function BackgroundWrapper({ children }) {
   return (
-    <Box className={styles.wrapper}>
+    <Box height="100%" className={styles.wrapper}>
       <Box className={styles.boxLogo}>
         <img src={LogoIndrustriall} alt="IndrustriALL logo" />
       </Box>

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { Box, Button, Card } from "@mui/material";
 
 // Componentes
-import MeetingContent from "./components/meetingContent/meetingContent";
-import InputsIdentification from "./components/identification/inputsIdentification";
+import MeetingContent from "./components/meetingContent";
+import InputsIdentification from "./components/identification";
 
 // Hook
 import useForm from "../../hooks/useForm";
@@ -14,12 +14,14 @@ import AxiosDefault from "../../permission/AxiosDefault";
 
 // Styles
 import styles from "./formCreate.module.css";
-import BackgroundWrapper from "../../components/Wrapper/backgroundWrapper";
-import TextAtas from "../../components/Title/text";
+import BackgroundWrapper from "../../components/Wrapper";
+import TextAtas from "../../components/Title";
+import MyAlert from "../../components/MyAlert";
 
 function FormCreate() {
   const [typesMeetings, setTypeMeetings] = useState([]);
   const [typesLocations, setLocations] = useState([]);
+  const [openAlert, setOpenAlert] = useState(false);
   const {
     formData,
     handleChange,
@@ -36,6 +38,14 @@ function FormCreate() {
     tipoReuniaoId: { value: "", required: true },
     camposAtaReuniao: []
   });
+
+  const handleAlertClose = () => {
+    setOpenAlert(false);
+  };
+
+  const handleShowAlert = () => {
+    setOpenAlert(true);
+  };
 
   useEffect(() => {
     async function getData() {
@@ -54,7 +64,11 @@ function FormCreate() {
     if (isFormValid) {
       try {
         await AxiosDefault.post("Atas", data);
-        window.location.pathname = "/";
+        handleShowAlert();
+        setTimeout(() => {
+          handleAlertClose();
+          window.location.pathname = "/";
+        }, 1500);
       } catch (error) {
         console.error("Erro ao enviar o formulário:", error);
       }
@@ -103,6 +117,12 @@ function FormCreate() {
           </Box>
         </Card>
       </Box>
+      <MyAlert
+        open={openAlert}
+        onClose={() => handleAlertClose()}
+        message="Formulário enviado com sucesso!"
+        severity="success"
+      />
     </BackgroundWrapper>
   );
 }

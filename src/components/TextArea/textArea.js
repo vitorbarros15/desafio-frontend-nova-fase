@@ -12,7 +12,7 @@ export default function TextArea({ value, name, title, rows, onChange }) {
         disabled={value && true}
         className={styles.input}
         name={name}
-        multiline={!value}
+        multiline
         rows={rows}
         onChange={onChange}
       />

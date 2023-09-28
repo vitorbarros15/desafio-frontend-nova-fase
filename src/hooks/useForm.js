@@ -8,7 +8,7 @@ export default function useForm(initialValues) {
   const handleChangeEvent = (e) => {
     let name = "";
     let value = "";
-    console.log("E", e);
+
     if (e.target && e.target.value !== undefined) {
       name = e.target.name;
       value = e.target.value;
@@ -19,7 +19,6 @@ export default function useForm(initialValues) {
       console.error("Argumento 'e' não é um evento ou um objeto de input válido");
       return;
     }
-    console.log("name, value", name, value);
 
     setData({
       ...data,
@@ -46,38 +45,32 @@ export default function useForm(initialValues) {
     } else {
       setFormData(updatedFormData);
     }
-    console.log("Datos", formData);
-    console.log("Data", data);
   };
 
-  const handleChangeAtaReuniao = (input) => {
-    const { campoId, value } = input;
-    const valueForData = { campoId, valor: value };
+  const handleChangeAtaReuniao = async (input) => {
+    const { campoId, valor } = input;
+
     const inputExist = formData.camposAtaReuniao.find((campo) => campo.campoId === campoId);
-    console.log("inputExist", inputExist);
 
     if (inputExist) {
       const inputNew = formData.camposAtaReuniao.map((campo) => {
         if (campo.campoId === campoId) {
-          return { ...campo, value };
+          return { ...campo, valor };
         }
         return campo;
       });
-      setData({
-        ...data,
-        camposAtaReuniao: inputNew
-      });
 
-      setFormData({ ...formData, camposAtaReuniao: });
+      setFormData({ ...formData, camposAtaReuniao: inputNew });
+      setData({ ...data, camposAtaReuniao: inputNew });
     } else {
-      const inputNew = { campoId, value };
+      const inputNew = { campoId, valor };
       setFormData({ ...formData, camposAtaReuniao: [...formData.camposAtaReuniao, inputNew] });
+
       setData({
         ...data,
-        camposAtaReuniao: [...formData.camposAtaReuniao, valueForData]
+        camposAtaReuniao: [data.camposAtaReuniao, inputNew]
       });
     }
-    console.log("Data", data);
   };
 
   const validateForm = () => {

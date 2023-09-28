@@ -3,8 +3,6 @@ import { MenuItem, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 
 export default function InputSelect({ value, name, label, error, options, onChange }) {
-  // const inputValue = value === true && value;
-  console.log("options", options);
   return (
     <TextField
       select={!value}

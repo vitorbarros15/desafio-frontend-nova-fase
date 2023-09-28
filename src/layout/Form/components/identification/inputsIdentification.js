@@ -46,7 +46,6 @@ export default function InputsIdentification({
               error={errors.localId}
               options={typesLocations}
               onChange={(e) => {
-                console.log("eVteste", e);
                 handleChangeEvent(e);
               }}
             />

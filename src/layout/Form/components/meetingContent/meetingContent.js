@@ -2,24 +2,22 @@ import React, { useState, useEffect } from "react";
 
 // MUI
 import { Box, Typography } from "@mui/material";
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import PropTypes from "prop-types";
+
 import DateTime from "../../../../components/DateTime";
 import TextArea from "../../../../components/TextArea";
 import InputText from "../../../../components/InputText";
 
 // Hook
 import useDate from "../../../../hooks/useDate";
+import AxiosDefault from "../../../../permission/AxiosDefault";
 
 // Style
 import styles from "./meetingContent.module.css";
-import AxiosDefault from "../../../../permission/AxiosDefault";
 
 export default function MeetingContent({
   chosenMeeting,
+  chosenMeetingView,
   handleChangeAtaReuniao
 }) {
   const [typesMeetings, setTypeMeetings] = useState([]);
@@ -34,16 +32,13 @@ export default function MeetingContent({
   }, [chosenMeeting]);
 
   function createTextArea(campo) {
-    console.log("campo, campo", campo);
     return (
       <TextArea
         value={campo.valor}
         name={campo.id}
         title={campo.nome}
         onChange={(e) => {
-          console.log("e", e.target.value);
-          const value = { campoId: campo.id, value: e.target.value };
-          console.log(value);
+          const value = { campoId: campo.id, valor: e.target.value };
           handleChangeAtaReuniao(value);
         }}
       />
@@ -51,12 +46,12 @@ export default function MeetingContent({
   }
 
   function createDateTime(campo) {
-    console.log("campo", campo);
     return (
       <DateTime
+        value={campo.valor}
         label={campo.nome}
         onChange={(e) => {
-          const value = { campoId: campo.id, value: useDate(e.$d) };
+          const value = { campoId: campo.id, valor: useDate(e.$d) };
           handleChangeAtaReuniao(value);
         }}
       />
@@ -64,14 +59,14 @@ export default function MeetingContent({
   }
 
   function createText(campo) {
-    console.log("campo", campo);
     return (
       <Box widthfull>
         <InputText
+          value={campo.valor}
           name={campo.id}
           label={campo.nome}
           onChange={(e) => {
-            const value = { campoId: campo.id, value: e.target.value };
+            const value = { campoId: campo.id, valor: e.target.value };
             handleChangeAtaReuniao(value);
           }}
         />
@@ -95,31 +90,57 @@ export default function MeetingContent({
         <Typography className={styles.titleMeetingContent}>Conteúdo da Reunião</Typography>
       </Box>
       <Box display="flex" flexDirection="column" gap="35px">
-        {chosenMeeting ? (
-          typesMeetings.map((object) => {
-            if (object.id === chosenMeeting) {
-              return object.campos.map((campo) => {
-                if (campo.tipo === "textarea") {
-                  return createTextArea(campo);
-                } if (campo.tipo === "datetime") {
-                  return createDateTime(campo);
-                } if (campo.tipo === "text") {
-                  return createText(campo);
-                }
-                return null;
-              });
-            }
-            return null;
-          })
-        ) : (
-          createDefault()
-        )}
+        {typesMeetings.map((object) => {
+          if (object.id === chosenMeeting) {
+            return (object.campos).map((campo) => {
+              if (campo.tipo === "textarea") {
+                return createTextArea(campo);
+              } if (campo.tipo === "datetime") {
+                return createDateTime(campo);
+              } if (campo.tipo === "text") {
+                return createText(campo);
+              }
+              return null;
+            });
+          } if (chosenMeetingView.tipoReuniaoId === object.id) {
+            return (chosenMeetingView.camposAtaReuniao).map((campo) => {
+              if (campo.tipo === "textarea") {
+                return createTextArea(campo);
+              } if (campo.tipo === "datetime") {
+                return createDateTime(campo);
+              } if (campo.tipo === "text") {
+                return createText(campo);
+              }
+              return null;
+            });
+          }
+          return null;
+        }) || createDefault()}
+
       </Box>
     </Box>
   );
 }
 
+MeetingContent.defaultProps = { chosenMeetingView: "" };
+
 MeetingContent.propTypes = {
   chosenMeeting: PropTypes.number.isRequired,
+  chosenMeetingView: PropTypes.shape({
+    camposAtaReuniao: PropTypes.arrayOf(
+      PropTypes.shape({
+        campoId: PropTypes.number,
+        valor: PropTypes.string
+      })
+    ),
+    dataFim: PropTypes.string,
+    dataInicio: PropTypes.string,
+    id: PropTypes.number,
+    local: PropTypes.string,
+    localId: PropTypes.number,
+    tipoReuniao: PropTypes.string,
+    tipoReuniaoId: PropTypes.number,
+    titulo: PropTypes.string
+  }),
   handleChangeAtaReuniao: PropTypes.func.isRequired
 };

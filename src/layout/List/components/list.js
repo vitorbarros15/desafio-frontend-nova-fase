@@ -11,6 +11,8 @@ import AxiosDefault from "../../../permission/AxiosDefault";
 
 // Style
 import styles from "./list.module.css";
+import MyModal from "../../../components/Modal/myModal";
+import MyAlert from "../../../components/MyAlert/myAlert";
 
 function groupMeetingsByTipoReuniao(meetings) {
   const groupedMeetings = {};
@@ -42,6 +44,9 @@ function formatDateTime(dateTimeStr) {
 }
 
 function List() {
+  const [showModal, setShowModal] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [delMeeting, setDelMeeting] = useState();
   const [meetings, setMeetings] = useState([]);
   const [deletedMeeting, setDeletedMeeting] = useState();
 
@@ -54,53 +59,98 @@ function List() {
     getMeetings();
   }, [deletedMeeting]);
 
-  async function deleteMeeting(deleteIdMeeting) {
-    console.log("meetingDelete", deleteIdMeeting);
-    const response = await AxiosDefault.delete(`Atas/${deleteIdMeeting}`);
+  const handleAlertClose = () => {
+    setOpenAlert(false);
+  };
+
+  const handleShowAlert = () => {
+    setOpenAlert(true);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    handleCloseModal();
+  };
+
+  const deleteMeeting = async () => {
+    const response = await AxiosDefault.delete(`Atas/${delMeeting}`);
+    handleShowAlert();
+    setTimeout(() => {
+      handleAlertClose();
+    }, 1500);
+    handleCloseModal();
     setDeletedMeeting(response);
-  }
+  };
 
   const groupedMeetings = groupMeetingsByTipoReuniao(meetings);
 
   return (
     <Box display="flex" flexDirection="column" gap="35px">
-      {Object.entries(groupedMeetings).map(([tipoReuniao, meetingGroup]) => (
-        <Box className={styles.container} key={tipoReuniao}>
-          <Box>
-            <Typography height="24px" mb="10px" className={styles.typeMeeting}>{tipoReuniao}</Typography>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              {meetingGroup.map((meeting, index) => (
-                <Box key={meeting.id} display="flex" className={styles.containerMeetingIcon}>
-                  <Box width="100%" display="flex" justifyContent="space-between" alignItems="center" height="74px" clasName={styles.meeting}>
-                    <Box>
-                      <Typography className={styles.titleMeeting}>{meeting.titulo}</Typography>
-                      <Typography className={styles.dateHourLocal}>
-                        {formatDateTime(meeting.dataInicio)}
-                        ,
-                        {" "}
-                        {meeting.local}
-                      </Typography>
+      { groupedMeetings !== null && Object.keys(groupedMeetings).length > 0 ? (
+        Object.entries(groupedMeetings).map(([tipoReuniao, meetingGroup]) => (
+          <Box className={styles.container} key={tipoReuniao}>
+            <Box>
+              <Typography height="24px" mb="10px" className={styles.typeMeeting}>{tipoReuniao}</Typography>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                {meetingGroup.map((meeting, index) => (
+                  <Box key={meeting.id} display="flex" className={styles.containerMeetingIcon}>
+                    <Box width="100%" display="flex" justifyContent="space-between" alignItems="center" height="74px" clasName={styles.meeting}>
+                      <Box>
+                        <Typography className={styles.titleMeeting}>{meeting.titulo}</Typography>
+                        <Typography className={styles.dateHourLocal}>
+                          {formatDateTime(meeting.dataInicio)}
+                          ,
+                          {" "}
+                          {meeting.local}
+                        </Typography>
+                      </Box>
+                      <Box display="flex" gap="17px">
+                        <RemoveRedEyeOutlinedIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => {
+                            window.location.pathname = `/reuniao/${meeting.id}`;
+                          }}
+                        />
+                        <DeleteOutlineIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => {
+                            handleOpenModal();
+                            setDelMeeting(meeting.id);
+                          }}
+                        />
+                      </Box>
                     </Box>
-                    <Box display="flex" gap="17px">
-                      <RemoveRedEyeOutlinedIcon
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => {
-                          window.location.pathname = `/reuniao/${meeting.id}`;
-                        }}
-                      />
-                      <DeleteOutlineIcon
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => deleteMeeting(meeting.id)}
-                      />
-                    </Box>
+                    {index !== meetingGroup.length - 1 && <Box className={styles.border} />}
                   </Box>
-                  {index !== meetingGroup.length - 1 && <Box className={styles.border} />}
-                </Box>
-              ))}
+                ))}
+              </Box>
             </Box>
           </Box>
+        ))
+      ) : Object.keys(groupedMeetings).length === 0 && (
+        <Box widthfull display="flex" justifyContent="center" alignItems="center" height="100px">
+          <Typography>Não há reuniões marcadas!</Typography>
         </Box>
-      ))}
+      )}
+      <MyModal
+        isOpen={showModal}
+        onClose={handleCloseModal}
+        onConfirm={deleteMeeting}
+        onCancel={handleCancel}
+      />
+      <MyAlert
+        open={openAlert}
+        onClose={() => handleAlertClose()}
+        message="Formulário enviado com sucesso!"
+        severity="success"
+      />
     </Box>
   );
 }

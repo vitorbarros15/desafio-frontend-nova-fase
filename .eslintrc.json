@@ -30,7 +30,8 @@
       "quotes": ["error", "double"],
       "linebreak-style": 0,
       "object-curly-newline": ["error", { "multiline": true }],
-      "no-async-promise-executor": "off"
+      "no-async-promise-executor": "off",
+      "react/require-default-props": "off"
 
     }
 }

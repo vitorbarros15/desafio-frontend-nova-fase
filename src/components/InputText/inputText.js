@@ -3,22 +3,19 @@ import PropTypes from "prop-types";
 import { TextField } from "@mui/material";
 
 export default function InputText({ value, name, label, error, onChange }) {
-  // const inputValue = value || null;
-
-  const inputLabelProps = value === true ? { shrink: true } : null;
   return (
     <TextField
-    // classname={styles.inputsTextField}
       name={name}
       label={label}
       value={value}
       disabled={!!value}
       error={error && true}
+      required
+      InputLabelProps={value ? { shrink: true } : null}
       fullWidth
       type="text"
       size="small"
       onChange={onChange}
-      InputLabelProps={inputLabelProps}
     />
   );
 }

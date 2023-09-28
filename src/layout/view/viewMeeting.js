@@ -4,10 +4,10 @@ import { Link, useParams } from "react-router-dom";
 // Hook
 import { Box, Button, Card } from "@mui/material";
 import AxiosDefault from "../../permission/AxiosDefault";
-import InputsIdentification from "../Form/components/identification/inputsIdentification";
-import MeetingContent from "../Form/components/meetingContent/meetingContent";
-import BackgroundWrapper from "../../components/Wrapper/backgroundWrapper";
-import TextAtas from "../../components/Title/text";
+import InputsIdentification from "../Form/components/identification";
+import MeetingContent from "../Form/components/meetingContent";
+import BackgroundWrapper from "../../components/Wrapper";
+import TextAtas from "../../components/Title";
 
 import styles from "../Form/formCreate.module.css";
 
@@ -20,7 +20,6 @@ export default function ViewMeeting() {
       return new Promise(async (resolve, reject) => {
         await AxiosDefault.get(`Atas/${id}`)
           .then((response) => {
-            console.log("response: ", response);
             resolve(response);
           })
           .catch((error) => {
@@ -42,8 +41,8 @@ export default function ViewMeeting() {
     <BackgroundWrapper>
       <Box display="flex" justifyContent="center" mt="31px">
         <TextAtas
-          title="Nova Ata de Reunião"
-          description="Os campos obrigatórios estão marcados com um asterisco (*)"
+          title="Ata Completa de Reunião"
+          description="Os campos não são editavéis (*)"
         />
       </Box>
       <Box display="flex" justifyContent="center">
@@ -54,18 +53,15 @@ export default function ViewMeeting() {
             </Box>
             <Box>
               { dataMeeting
-              && <MeetingContent chosenMeeting={dataMeeting.tipoReuniaoId} />}
+              && <MeetingContent chosenMeetingView={dataMeeting} />}
             </Box>
             <Box position="absolute" right="0" bottom="0" mb="29px">
-              <Box className={styles.containerButtons}>
+              <Box justifyContent="flex-end" className={styles.containerButtons}>
                 <Link to="/">
                   <Button className={styles.buttonCancel}>
-                    CANCELAR
+                    VOLTAR
                   </Button>
                 </Link>
-                <Button className={styles.buttonSave}>
-                  SALVAR ATA
-                </Button>
               </Box>
             </Box>
           </Box>
